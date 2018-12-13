@@ -1,2 +1,2 @@
-# SeniorDesignAntiNN
-Senior Design for Cyber Engineering at Louisiana Tech, 2018-2019
+# SeniorDesignCAPIRS
+Counter Adversarial Package for Image Recognition Systems - Senior Design LA Tech Winter - Spring 2019
