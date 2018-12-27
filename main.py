@@ -23,8 +23,7 @@ plot_results.plot(img, image_class_probs)
 
 logits, probs, image = forward_model.get_logits_probs_image_tf(sess)
 
-adv = adv_example.generate_adversarial_example(img,sess)
-adv_img = PIL.Image.fromarray(np.uint8((adv)*255))
+adv_img = adv_example.generate_adversarial_example(img,sess)
 adv_class_probs = forward_model.predict(adv_img,sess)
 plot_results.plot(adv_img, adv_class_probs)
 
