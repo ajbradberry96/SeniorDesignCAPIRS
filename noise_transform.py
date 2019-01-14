@@ -34,16 +34,22 @@ predict_and_plot(img, sess)
 logits, probs, image = forward_model.get_logits_probs_image_tf(sess)
 
 # get our adversarial example and evaluate it
-adv_img = adv_example.generate_adversarial_example(img,sess)
+#adv_img = adv_example.generate_adversarial_example(img,sess)
+adv_img = PIL.Image.open('adversarial_cat.png')
+
+
+# save image for later use (don't generate every time, for testing)
+#adv_img.save('adversarial_cat.png')
+
 #adv_class_probs = forward_model.predict(adv_img,sess)
 #plot_results.plot(adv_img, adv_class_probs)
 predict_and_plot(adv_img, sess)
 
 # no need to make a robust example
-def add_noise(image, noise_factor = 1):
+def add_noise(image, noise_factor=1):
     # adding gaussian noise
     mean = 0.0
-    var = 2.0
+    var = 1.0 * noise_factor
     stdev = var**0.5
     w, h = image.size
     c = len(image.getbands())
@@ -64,3 +70,13 @@ predict_and_plot(noised_image, sess)
 noised_adv_img = add_noise(adv_img)
 #noised_adv_img_probs = forward_model.predict(noised_image, sess)
 predict_and_plot(noised_adv_img, sess)
+
+def test_noise_factor(factor):
+    noised_image = add_noise(img, noise_factor=factor)
+    noised_adv_img = add_noise(adv_img, noise_factor=factor)
+    predict_and_plot(noised_image, sess)
+    predict_and_plot(noised_adv_img, sess)
+
+for i in np.linspace(0,3,20):
+    print(f"Testing noise_factor of {i}")
+    test_noise_factor(i)
