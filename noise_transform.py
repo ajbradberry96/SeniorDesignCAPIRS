@@ -123,6 +123,6 @@ predict_and_plot(noised_robust, sess)
 """
 
 # test effect of multiple different noise factors
-for i in np.linspace(0,1,11):
-    print(f"Testing noise_factor of {i}")
-    test_with_noise(images, i, "speckle", sess)
+#for i in np.linspace(0,1,11):
+#    print(f"Testing noise_factor of {i}")
+#    test_with_noise(images, i, "speckle", sess)
