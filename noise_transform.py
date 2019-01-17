@@ -1,3 +1,11 @@
+"""Functions to add noise to an image for the purpose of defeating adversarial
+examples, along with functions to perform tests as a standalone module.
+
+When we combine this into the final file, we should only need the add_noise
+function.
+
+Uses numpy and PIL in particular for the noise transforms.
+"""
 import json
 import matplotlib.pyplot as plt
 import numpy as np
@@ -9,13 +17,29 @@ import adv_example
 import forward_model 
 import plot_results
 
-def add_noise(image, noise_factor=1, noise_type="gauss"):
+def add_noise(image, noise_factor=0.3, noise_type="speckle"):
+    """Add noise to an image to defeat adversarial examples.
+
+    Positional arguments:
+    image - PIL image to add noise to
+
+    Keyword arguments:
+    noise_factor: intensity to scale noise, different for each noise type
+    noise_type: which method to add noise. Takes in a string, four choices:
+        1. gauss - gaussian noise, somewhat effective at noise_factor of 1
+        2. saltpepper - salt and pepper noise, somewhat effective at
+            noise_factor of 1
+        3. poisson - not effective, noise_factor does not affect it
+        4. speckle - very effective, best at noise_factor of ~0.3
+
+    Returns the PIL image with noise added to it.
+    """
     noisy_image = None
     image_array = np.array(image)
     if noise_type == "gauss":
         # adding gaussian noise
         mean = 0.0
-        var = 1.0 * noise_factor
+        var = 1.0 * noise_factor # intensity of gauss differences
         stdev = var**0.5
         w, h = image.size
         c = len(image.getbands())
@@ -28,7 +52,6 @@ def add_noise(image, noise_factor=1, noise_type="gauss"):
         s_vs_p = 0.5 # ratio of salt to pepper
         amount = 0.004 * noise_factor
         # generate salt (1) noise
-        #w, h = image.size
         numpixels = image_array.size
         num_salt = np.ceil(amount * numpixels * s_vs_p)
         coords = [np.random.randint(0, i-1, int(num_salt)) for i in image_array.shape]
@@ -52,7 +75,7 @@ def add_noise(image, noise_factor=1, noise_type="gauss"):
     else:
         # TODO: replace with log statement 
         print("Invalid noise type specified")
-        # set noisy image to original image? or return none?
+        # set noisy image to original image? or return none? raise exception?
     
     return noisy_image
 
