@@ -1,6 +1,7 @@
 import json
 import matplotlib.pyplot as plt
 import numpy as np
+from random import randint
 
 from PIL import ImageFilter
 
@@ -58,6 +59,17 @@ def gaussianBlur(image, radius):
     blur = image.filter(ImageFilter.GaussianBlur(radius))
     return blur
 
+## Create a random kernal convolution
+## size must be 3 or 5
+def randomBlur(image, size):
+    k = []
+    for i in range(size**2):
+        k.append(randint(1, 30))
+    print (len(k))
+    print (k)
+    blur = image.filter(ImageFilter.Kernel((size,size), k))
+    return blur
+
 # Blur the 3 test images with radius 2
 imgBlur =  gaussianBlur(img, 2)
 advImgBlur = gaussianBlur(advImg, 2)
@@ -66,6 +78,15 @@ robustadvImgBlur = gaussianBlur(robustadvImg, 2)
 predict_and_plot(imgBlur, sess)
 predict_and_plot(advImgBlur, sess) #defeated the example
 predict_and_plot(robustadvImgBlur, sess) #defeated the example
+
+# random Blurs on the images
+r1 = randomBlur(img, 3)
+r2 = randomBlur(advImg, 3)
+r3 = randomBlur(robustadvImgBlur, 3)
+# classify these guys
+predict_and_plot(r1, sess)
+predict_and_plot(r2, sess)
+predict_and_plot(r3, sess)
 
 
 
