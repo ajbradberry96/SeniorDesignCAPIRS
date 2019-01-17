@@ -65,12 +65,15 @@ def randomBlur(image, size):
     k = []
     for i in range(size**2):
         k.append(randint(1, 30))
-    print (len(k))
-    print (k)
     blur = image.filter(ImageFilter.Kernel((size,size), k))
     return blur
 
-# Blur the 3 test images with radius 2
+## Blox blur, takes in image and radius of kernal
+def boxBlur(image, radius):
+    blur = image.filter(ImageFilter.BoxBlur(radius))
+    return blur
+
+# Gaussian Blur the 3 test images with radius 2
 imgBlur =  gaussianBlur(img, 2)
 advImgBlur = gaussianBlur(advImg, 2)
 robustadvImgBlur = gaussianBlur(robustadvImg, 2)
@@ -82,11 +85,19 @@ predict_and_plot(robustadvImgBlur, sess) #defeated the example
 # random Blurs on the images
 r1 = randomBlur(img, 3)
 r2 = randomBlur(advImg, 3)
-r3 = randomBlur(robustadvImgBlur, 3)
+r3 = randomBlur(robustadvImg, 3)
 # classify these guys
 predict_and_plot(r1, sess)
 predict_and_plot(r2, sess)
 predict_and_plot(r3, sess)
 
+# Box Blurs
+b1 = boxBlur(img, 2)
+b2 = boxBlur(advImg, 2)
+b3 = boxBlur(robustadvImg, 2)
+#classify
+predict_and_plot(b1, sess)
+predict_and_plot(b2, sess)
+predict_and_plot(b3, sess)
 
 
