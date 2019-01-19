@@ -45,4 +45,3 @@ def rand_warp(image, deg=None, random_state=None):
         image.size, PIL.Image.PERSPECTIVE,
         find_coeffs(pa, pb),
         PIL.Image.BILINEAR)
-
