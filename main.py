@@ -3,6 +3,7 @@ import tensorflow as tf
 import forward_model
 import plot_results
 import adv_example
+import image_processing
 
 from urllib.request import urlretrieve
 
@@ -22,6 +23,10 @@ logits, probs, image = forward_model.get_logits_probs_image_tf(sess)
 adv_img = adv_example.generate_adversarial_example(img,sess)
 adv_class_probs = forward_model.predict(adv_img,sess)
 plot_results.plot(adv_img, adv_class_probs)
+
+col_img = image_processing.saturate_mod(image_processing.color_shift(adv_img))
+col_class_probs = forward_model.predict(col_img, sess)
+plot_results.plot(col_img, col_class_probs)
 
 adv_robust = adv_example.generate_adversarial_example(img, sess, mode="rot_robust")
 #ex_angle = np.pi/8
