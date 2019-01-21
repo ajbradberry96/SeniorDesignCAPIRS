@@ -7,11 +7,7 @@ import color_mod
 
 from urllib.request import urlretrieve
 
-import json
-import matplotlib.pyplot as plt
-
 import PIL
-import numpy as np
 
 tf.logging.set_verbosity(tf.logging.ERROR)
 sess = tf.InteractiveSession()
