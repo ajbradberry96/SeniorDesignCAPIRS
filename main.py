@@ -3,7 +3,7 @@ import tensorflow as tf
 import forward_model
 import plot_results
 import adv_example
-import color_mod
+import image_processing
 
 from urllib.request import urlretrieve
 
@@ -24,7 +24,7 @@ adv_img = adv_example.generate_adversarial_example(img,sess)
 adv_class_probs = forward_model.predict(adv_img,sess)
 plot_results.plot(adv_img, adv_class_probs)
 
-col_img = color_mod.color_mod(adv_img)
+col_img = image_processing.saturate_mod(image_processing.color_shift(adv_img))
 col_class_probs = forward_model.predict(col_img, sess)
 plot_results.plot(col_img, col_class_probs)
 

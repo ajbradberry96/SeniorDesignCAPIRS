@@ -5,8 +5,8 @@ Module for image transforms.
 @author: Andrew Bradberry
 """
 import PIL
-from urllib.request import urlretrieve
 import numpy as np
+import random
 
 def find_coeffs(pa, pb):
     """ Finds coefficients for perspective shift for use in rand_warp() """
@@ -108,3 +108,55 @@ def add_noise(image, noise_factor=0.3, noise_type="speckle"):
         # set noisy image to original image? or return none? raise exception?
     
     return noisy_image
+
+
+def saturate_mod(img, saturate_amt=0):
+    """ Takes a PIL image and saturates it
+        Returns the modified PIL image
+
+        NOTE: if saturate_amt is 0, saturates randomly between 0.5 and 2
+    """
+
+    if saturate_amt == 0:
+        saturate_amt = random.uniform(2, 4)
+
+    converter = PIL.ImageEnhance.Color(img)
+    img2 = converter.enhance(saturate_amt)
+    return img2
+
+
+def color_shift(img, shifts=(0, 0, 0)):
+    """
+        Takes a PIL image and shifts the color some amount
+        Returns the modified PIL image
+
+        NOTE: if shifts is 0,0,0 then use random shift amounts
+    """
+
+    if shifts[0] == 0 and shifts[1] == 0 and shifts[2] == 0:
+        red_shift = random.randint(20, 40)
+        green_shift = random.randint(20, 40)
+        blue_shift = random.randint(20, 40)
+        shifts = (red_shift, green_shift, blue_shift)
+
+
+    arr = np.asarray(img).copy()
+    for i in range(arr.shape[0]):
+        for j in range(arr.shape[1]):
+            # Loop through all pixels and shift them by the given amounts
+            new_red = arr[i,j,0]+shifts[0]
+            if new_red >= 255:
+                new_red = 255
+            arr[i,j,0] = new_red
+
+            new_green = arr[i,j,1]+shifts[1]
+            if new_green >= 255:
+                new_green = 255
+            arr[i,j,1] = new_green
+
+            new_blue = arr[i,j,2]+shifts[2]
+            if new_blue >= 255:
+                new_blue = 255
+            arr[i,j,2] = new_blue
+
+    return PIL.Image.fromarray(np.uint8(arr))
