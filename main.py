@@ -3,15 +3,9 @@ import tensorflow as tf
 import forward_model
 import plot_results
 import adv_example
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
 import image_processing
 import detect_adversarial
->>>>>>> Stashed changes
-=======
 import image_processing
->>>>>>> 781903840b87b92411d507c210f317a8ca0c263f
 
 from urllib.request import urlretrieve
 
