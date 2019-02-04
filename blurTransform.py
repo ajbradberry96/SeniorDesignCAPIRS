@@ -14,19 +14,20 @@ import forward_model
 import plot_results
 
 def predict_and_plot(img, sess):
-    img_probs = forward_model.predict(img, sess)
+    img_probs = forward_model.predict(img)
     plot_results.plot(img, img_probs)
 
 # setup
 tf.logging.set_verbosity(tf.logging.ERROR)
 sess = tf.InteractiveSession()
+forward_model.init(sess)
 
 ### get image of cat
 ##img_path, _ = urlretrieve('http://www.anishathalye.com/media/2017/07/25/cat.jpg')
 ##img = PIL.Image.open(img_path)
 ##
 ##img.save('Cat.png')
-img = PIL.Image.open('Cat.png')
+img = PIL.Image.open('media/Cat.png')
 
 #classify image
 predict_and_plot(img, sess)
@@ -40,7 +41,7 @@ logits, probs, image = forward_model.get_logits_probs_image_tf(sess)
 ### get adv example
 ##advImg = adv_example.generate_adversarial_example(img, sess)
 ##advImg.save('adversarialCat.png')
-advImg = PIL.Image.open('adversarialCat.png')
+advImg = PIL.Image.open('media/adversarialCat.png')
 
 # classify adversarial example
 predict_and_plot(advImg, sess)
@@ -48,7 +49,7 @@ predict_and_plot(advImg, sess)
 ### get robust adv example
 ##robustadvImg = adv_example.generate_adversarial_example(img, sess, mode='rot_robust')
 ##robustadvImg.save('rotRobustAdversarialCat.png')
-robustadvImg = PIL.Image.open('rotRobustAdversarialCat.png')
+robustadvImg = PIL.Image.open('media/rotRobustAdversarialCat.png')
 
 #classify the robust example
 predict_and_plot(robustadvImg, sess)
