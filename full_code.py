@@ -129,7 +129,6 @@ adv = x_hat.eval() # retrieve the adversarial example
 classify(adv, correct_class=img_class, target_class=demo_target)
 
 
-
 ex_angle = np.pi/8
 
 angle = tf.placeholder(tf.float32, ())
