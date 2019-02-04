@@ -52,19 +52,21 @@ model_loaded = False
 logits = None
 probs = None
 image = None
+sess = None
 
-def init(sess):
-	global logits, probs, image, model_loaded
+def init(tf_sess):
+	global logits, probs, image, model_loaded, sess
+	sess = tf_sess
 	image = tf.Variable(tf.zeros((299, 299, 3)))
 	logits, probs = inception(image, reuse=False)
 	load_checkpoint(sess)
 	model_loaded = True
 
 
-def predict(input_image, sess):
-	global logits, probs, image, model_loaded
+def predict(input_image):
+	global logits, probs, image, model_loaded, sess
 	if not model_loaded:
-		init(sess)
+		raise RuntimeError("ERROR: must init forward model first")
 	processed_img = image_preprocessor(input_image)
 	p = sess.run(probs, feed_dict={image: processed_img})[0]
 	return p

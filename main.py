@@ -3,14 +3,13 @@ import tensorflow as tf
 import forward_model
 import plot_results
 import adv_example
+import image_processing
+import detect_adversarial
+import image_processing
 
 from urllib.request import urlretrieve
 
-import json
-import matplotlib.pyplot as plt
-
 import PIL
-import numpy as np
 
 tf.logging.set_verbosity(tf.logging.ERROR)
 sess = tf.InteractiveSession()
@@ -18,14 +17,29 @@ sess = tf.InteractiveSession()
 img_path, _ = urlretrieve('http://www.anishathalye.com/media/2017/07/25/cat.jpg')
 img = PIL.Image.open(img_path)
 
+forward_model.init(sess)
+detect_adversarial.detect(img)
+
+adv_img = PIL.Image.open("media/robust_adversarial_cat.png")
+detect_adversarial.detect(adv_img)
+
+# TODO: refactor this whole mess
+sys.exit()
+
+
 image_class_probs = forward_model.predict(img, sess)
 plot_results.plot(img, image_class_probs)
 
 logits, probs, image = forward_model.get_logits_probs_image_tf(sess)
 
-adv_img = adv_example.generate_adversarial_example(img,sess)
+#adv_img = adv_example.generate_adversarial_example(img,sess)
+adv_img = PIL.Image.open("media/robust_adversarial_cat.png")
 adv_class_probs = forward_model.predict(adv_img,sess)
 plot_results.plot(adv_img, adv_class_probs)
+
+col_img = image_processing.saturate_mod(image_processing.color_shift(adv_img))
+col_class_probs = forward_model.predict(col_img, sess)
+plot_results.plot(col_img, col_class_probs)
 
 adv_robust = adv_example.generate_adversarial_example(img, sess, mode="rot_robust")
 #ex_angle = np.pi/8
