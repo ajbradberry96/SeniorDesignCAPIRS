@@ -1,3 +1,7 @@
+"""
+This file served as the original adversarial image testing
+before we broke it down into several different files.
+"""
 import tensorflow as tf
 import tensorflow.contrib.slim as slim
 import tensorflow.contrib.slim.nets as nets
