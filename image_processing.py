@@ -47,7 +47,7 @@ def rand_warp(image, deg=None, random_state=None):
         PIL.Image.BILINEAR)
 
 
-def add_noise(image, noise_factor=0.3, noise_type="speckle"):
+def add_noise(image, noise_factor=0.1, noise_type="speckle"):
     """Add noise to an image to defeat adversarial examples.
 
     Positional arguments:
@@ -134,9 +134,9 @@ def color_shift(img, shifts=(0, 0, 0)):
     """
 
     if shifts[0] == 0 and shifts[1] == 0 and shifts[2] == 0:
-        red_shift = random.randint(20, 40)
-        green_shift = random.randint(20, 40)
-        blue_shift = random.randint(20, 40)
+        red_shift = random.randint(80, 100)
+        green_shift = random.randint(80, 100)
+        blue_shift = random.randint(80, 100)
         shifts = (red_shift, green_shift, blue_shift)
 
 

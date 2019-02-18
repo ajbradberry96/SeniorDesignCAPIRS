@@ -69,8 +69,8 @@ def detect_test(imgs, names, separate_advs=True):
 			f.write("name,"+",".join(forward_model.get_imagenet_labels()) + "\n")
 
 		with open("cosine_data_true.csv","w") as f:
-			# Write out the headers for the simple cosine difference data
-			f.write("name,"+",".join(forward_model.get_imagenet_labels()) + "\n")
+			# Write out the headers for the simple cosine differencreadablee data
+			f.write("name,cosine_diff\n")
 
 		with open("vector_data_adv.csv","w") as f:
 			# Write out the headers for the vector data
@@ -78,7 +78,7 @@ def detect_test(imgs, names, separate_advs=True):
 
 		with open("cosine_data_adv.csv","w") as f:
 			# Write out the headers for the simple cosine difference data
-			f.write("name,"+",".join(forward_model.get_imagenet_labels()) + "\n")
+			f.write("name,cosine_diff\n")
 	else:
 		with open("vector_data.csv","w") as f:
 			# Write out the headers for the vector data
@@ -86,13 +86,13 @@ def detect_test(imgs, names, separate_advs=True):
 
 		with open("cosine_data.csv","w") as f:
 			# Write out the headers for the simple cosine difference data
-			f.write("name,"+",".join(forward_model.get_imagenet_labels()) + "\n")
+			f.write("name,cosine_diff\n")
 
 	for i, img in enumerate(imgs):
 		img_name = names[i]
 
 		if separate_advs:
-			if "adversarial" in img_name:
+			if "adv" in img_name:
 				vec_file_name = "vector_data_adv.csv"
 				cos_file_name = "cosine_data_adv.csv"
 			else:
@@ -105,7 +105,7 @@ def detect_test(imgs, names, separate_advs=True):
 
 		orig_vector = list(forward_model.predict(img))
 		vec_name = "_orig"
-		with open(vec_file_name) as f:
+		with open(vec_file_name,"a") as f:
 			f.write(img_name+vec_name+","+ ",".join([str(x) for x in orig_vector]) + "\n")
 
 		transform_vectors = []
