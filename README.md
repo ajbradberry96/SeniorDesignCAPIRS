@@ -13,7 +13,7 @@ Pillow, fork of the Python Imaging Library
 Numpy for vector math and image modifications
 Scipy for spatial vector mathematics and adversarial comparisons
 Matplotlib for MATLAB plots
-Facial_recognition for face recognition testing
+Facial_recognition for face recognition testing (https://github.com/ageitgey/face_recognition)
 
 # Installing
 No installation required, just create a script and run it using Python 3.6, importing and using whatever files you need
