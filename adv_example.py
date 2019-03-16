@@ -3,6 +3,7 @@ import numpy as np
 import PIL
 import forward_model
 
+
 def generate_adversarial_example(img, sess, mode="normal"):
 	logits, probs, image = forward_model.get_logits_probs_image_tf(sess)
 	img = forward_model.image_preprocessor(img)
@@ -24,7 +25,6 @@ def generate_adversarial_example(img, sess, mode="normal"):
 	projected = tf.clip_by_value(tf.clip_by_value(x_hat, below, above), 0, 1)
 	with tf.control_dependencies([projected]):
 		project_step = tf.assign(x_hat, projected)
-
 
 	if mode=="normal":
 		loss = tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=[labels])
@@ -81,7 +81,7 @@ def generate_adversarial_example(img, sess, mode="normal"):
 			if (i + 1) % 50 == 0:
 				print('step %d, loss=%g' % (i + 1, loss_value))
 
-	adv = x_hat.eval() # retrieve the adversarial example
+	adv = x_hat.eval()  # retrieve the adversarial example
 
 	adv_img = PIL.Image.fromarray(np.uint8((adv)*255))
 

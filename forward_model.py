@@ -48,11 +48,13 @@ def image_preprocessor(img):
 	img = (np.asarray(img) / 255.0).astype(np.float32)
 	return img
 
+
 model_loaded = False
 logits = None
 probs = None
 image = None
 sess = None
+
 
 def init(tf_sess):
 	global logits, probs, image, model_loaded, sess
@@ -70,6 +72,7 @@ def predict(input_image):
 	processed_img = image_preprocessor(input_image)
 	p = sess.run(probs, feed_dict={image: processed_img})[0]
 	return p
+
 
 def get_logits_probs_image_tf(sess):
 	global logits, probs, image, model_loaded

@@ -6,6 +6,7 @@ import adv_example
 import image_processing
 import detect_adversarial
 import image_processing
+import sys
 
 from urllib.request import urlretrieve
 
@@ -23,7 +24,9 @@ detect_adversarial.detect(img)
 adv_img = PIL.Image.open("media/robust_adversarial_cat.png")
 detect_adversarial.detect(adv_img)
 
-# TODO: refactor this whole mess
+# TODO: refactor this code, decide what we want main to do exactly
+# when we incorporate more advanced functionality, this file
+# will have more clear responsibility for setup and analysis
 sys.exit()
 
 

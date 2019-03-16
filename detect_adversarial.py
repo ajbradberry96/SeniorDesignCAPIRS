@@ -35,7 +35,6 @@ def detect(img):
 		t_vec = list(forward_model.predict(warp_img))
 		transform_vectors.append(t_vec)
 
-
 	average_trans_vector = list(np.average(transform_vectors, axis=0))
 	cosine_diff = spatial.distance.cosine(orig_vector, average_trans_vector)
 

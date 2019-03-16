@@ -8,6 +8,7 @@ import PIL
 import numpy as np
 import random
 
+
 def find_coeffs(pa, pb):
     """ Finds coefficients for perspective shift for use in rand_warp() """
     matrix = []
@@ -20,6 +21,7 @@ def find_coeffs(pa, pb):
 
     res = np.dot(np.linalg.inv(A.T * A) * A.T, B)
     return np.array(res).reshape(8)
+
 
 def rand_warp(image, deg=None, random_state=None):
     """Performs a random perspective warp of the original image"""
@@ -139,24 +141,47 @@ def color_shift(img, shifts=(0, 0, 0)):
         blue_shift = random.randint(20, 40)
         shifts = (red_shift, green_shift, blue_shift)
 
-
     arr = np.asarray(img).copy()
     for i in range(arr.shape[0]):
         for j in range(arr.shape[1]):
             # Loop through all pixels and shift them by the given amounts
-            new_red = arr[i,j,0]+shifts[0]
+            new_red = arr[i, j, 0]+shifts[0]
             if new_red >= 255:
                 new_red = 255
-            arr[i,j,0] = new_red
+            arr[i, j, 0] = new_red
 
-            new_green = arr[i,j,1]+shifts[1]
+            new_green = arr[i, j, 1]+shifts[1]
             if new_green >= 255:
                 new_green = 255
-            arr[i,j,1] = new_green
+            arr[i, j, 1] = new_green
 
-            new_blue = arr[i,j,2]+shifts[2]
+            new_blue = arr[i, j, 2]+shifts[2]
             if new_blue >= 255:
                 new_blue = 255
-            arr[i,j,2] = new_blue
+            arr[i, j, 2] = new_blue
 
     return PIL.Image.fromarray(np.uint8(arr))
+
+
+def gaussian_blur(image, radius):
+    """Gaussian Blur function, takes in image and radius of kernal"""
+    blur = image.filter(PIL.ImageFilter.GaussianBlur(radius))
+    return blur
+
+
+def random_blur(image, size):
+    """
+    Create a random kernal convolution
+    size must be 3 or 5
+    """
+    k = []
+    for i in range(size**2):
+        k.append(random.randint(1, 30))
+    blur = image.filter(PIL.ImageFilter.Kernel((size,size), k))
+    return blur
+
+
+def box_blur(image, radius):
+    """Box blur, takes in image and radius of kernal"""
+    blur = image.filter(PIL.ImageFilter.BoxBlur(radius))
+    return blur

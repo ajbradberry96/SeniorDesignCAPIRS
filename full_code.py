@@ -1,3 +1,7 @@
+"""
+This file served as the original adversarial image testing
+before we broke it down into several different files.
+"""
 import tensorflow as tf
 import tensorflow.contrib.slim as slim
 import tensorflow.contrib.slim.nets as nets
@@ -127,7 +131,6 @@ for i in range(demo_steps):
 adv = x_hat.eval() # retrieve the adversarial example
 
 classify(adv, correct_class=img_class, target_class=demo_target)
-
 
 
 ex_angle = np.pi/8
