@@ -4,7 +4,7 @@ import PIL
 import forward_model
 
 
-def generate_adversarial_example(img, sess, mode="normal"):
+def generate_adversarial_example(img, sess, mode="normal", adv_class="guacamole"):
 	logits, probs, image = forward_model.get_logits_probs_image_tf(sess)
 	img = forward_model.image_preprocessor(img)
 
@@ -33,7 +33,8 @@ def generate_adversarial_example(img, sess, mode="normal"):
 		demo_epsilon = 2.0/255.0 # a really small perturbation
 		demo_lr = 1e-1
 		demo_steps = 100
-		demo_target = 924 # "guacamole"
+		labels = forward_model.get_imagenet_labels()
+		demo_target = labels.index(adv_class)
 
 		# initialization step
 		sess.run(assign_op, feed_dict={x: img})
@@ -86,3 +87,21 @@ def generate_adversarial_example(img, sess, mode="normal"):
 	adv_img = PIL.Image.fromarray(np.uint8((adv)*255))
 
 	return adv_img
+
+if __name__ == "__main__":
+
+	tf.logging.set_verbosity(tf.logging.ERROR)
+	sess = tf.InteractiveSession()
+
+	img = PIL.Image.open("media/norm_image_raw.jpg")
+	img = img.resize((300, 300), PIL.Image.ANTIALIAS)
+	img.save("media/norm_img.png")
+
+	forward_model.init(sess)
+
+	print(forward_model.get_imagenet_labels())
+
+	adv_img = generate_adversarial_example(img, sess, adv_class='milk can')
+
+	adv_img.save("media/adv_img.png")
+
