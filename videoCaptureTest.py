@@ -10,11 +10,24 @@ import cv2
 import threading
 from apscheduler.schedulers.background import BackgroundScheduler
 import forward_model
+import face_recognition
 
 Labels = forward_model.get_imagenet_labels()
 ##Using the frame as a global variable because problems passing
 ##parameters with scheduler
 frame = np.empty(1)
+
+##set up for face stuff
+knownEncodings = []
+ozImage = face_recognition.load_image_file("media/Oz1.png")
+bgImage = face_recognition.load_image_file("media/BG1.png")
+ozEncoding = face_recognition.face_encodings(ozImage)
+bgEncoding = face_recognition.face_encodings(bgImage)
+knownEncodings.append(ozEncoding)
+knownEncodings.append(bgEncoding)
+#need to find a way to get both encodings to work at the same time
+print("Known encodings are: ")
+print(knownEncodings)
 
 def printClasses():
     """
@@ -28,6 +41,23 @@ def printClasses():
     imgClass = [Labels[i][:15] for i in topk]
     print(topprobs[1])
     print(imgClass[1])
+
+def faceChecker():
+    """
+    Take an image and check with list of known faces
+    print off results for simplicity
+    """
+    #get encoding for image
+    if(len(face_recognition.face_encodings(frame)) > 0):
+        unknownEncoding = face_recognition.face_encodings(frame)[0]
+        unknownImg = Image.fromarray(frame)
+        #check for josh
+        print(face_recognition.compare_faces(ozEncoding, unknownEncoding))
+        #check for brian
+        print(face_recognition.compare_faces(bgEncoding, unknownEncoding))
+        print("NEXT")
+    else:
+        print("no face here") 
     
 #create tensorflow session
 tf.logging.set_verbosity(tf.logging.ERROR)
@@ -48,16 +78,15 @@ while(True):
     #capture frame by frame
     ret, frame = cap.read()
 
-    #operations on frame, classify and plot
-    #gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-
     #classify frame every second
     if(first):
-        sched.add_job(printClasses, 'interval', seconds = 5)
+        #sched.add_job(printClasses, 'interval', seconds = 10)
+        sched.add_job(faceChecker, 'interval', seconds = 5)
         first = False
     
     #display the resulting frame
     cv2.imshow('frame', frame)
+    #hit q while active in picture to quit program
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
