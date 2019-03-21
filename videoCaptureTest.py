@@ -17,17 +17,19 @@ Labels = forward_model.get_imagenet_labels()
 ##parameters with scheduler
 frame = np.empty(1)
 
-##set up for face stuff
+##set up known faces
 knownEncodings = []
+names = []
+#set up for Josh
 ozImage = face_recognition.load_image_file("media/Oz1.png")
-bgImage = face_recognition.load_image_file("media/BG1.png")
 ozEncoding = face_recognition.face_encodings(ozImage)
-bgEncoding = face_recognition.face_encodings(bgImage)
 knownEncodings.append(ozEncoding)
+names.append("Josh")
+#set up for Brian
+bgImage = face_recognition.load_image_file("media/BG1.png")
+bgEncoding = face_recognition.face_encodings(bgImage)
 knownEncodings.append(bgEncoding)
-#need to find a way to get both encodings to work at the same time
-print("Known encodings are: ")
-print(knownEncodings)
+names.append("Brian")
 
 def printClasses():
     """
@@ -36,9 +38,11 @@ def printClasses():
     """
     img = Image.fromarray(frame)
     probs = forward_model.predict(img)
+    ##find the most likely classes and their probabilities
     topk = list(probs.argsort()[-10:][::-1])
     topprobs = probs[topk]
     imgClass = [Labels[i][:15] for i in topk]
+    ##print the MOST likely class and its probability
     print(topprobs[1])
     print(imgClass[1])
 
@@ -51,10 +55,14 @@ def faceChecker():
     if(len(face_recognition.face_encodings(frame)) > 0):
         unknownEncoding = face_recognition.face_encodings(frame)[0]
         unknownImg = Image.fromarray(frame)
-        #check for josh
-        print(face_recognition.compare_faces(ozEncoding, unknownEncoding))
-        #check for brian
-        print(face_recognition.compare_faces(bgEncoding, unknownEncoding))
+        
+        ###I give up just gonna loop through this shit, will work just as well
+        for i in range(len(knownEncodings)):
+            f = face_recognition.compare_faces(knownEncodings[i], unknownEncoding)
+            if(f[0]):
+                print ("This is " + names[i])
+            else:
+                print ("This is not " + names[i])
         print("NEXT")
     else:
         print("no face here") 
@@ -78,7 +86,7 @@ while(True):
     #capture frame by frame
     ret, frame = cap.read()
 
-    #classify frame every second
+    #classify frame every second by setting up a scheduler
     if(first):
         #sched.add_job(printClasses, 'interval', seconds = 10)
         sched.add_job(faceChecker, 'interval', seconds = 5)
