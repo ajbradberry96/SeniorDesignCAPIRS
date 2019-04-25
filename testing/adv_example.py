@@ -1,7 +1,7 @@
 import tensorflow as tf
 import numpy as np
 import PIL
-import forward_model
+from testing import forward_model
 
 
 def generate_adversarial_example(img, sess, mode="normal", adv_class="guacamole"):

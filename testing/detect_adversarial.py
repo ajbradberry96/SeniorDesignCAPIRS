@@ -1,8 +1,8 @@
 from scipy import spatial
 import numpy as np
-import forward_model
-import plot_results
-import image_processing
+from testing import forward_model
+from testing import plot_results
+from testing import image_processing
 import os
 
 
@@ -189,11 +189,9 @@ if __name__ == "__main__":
 	tf.logging.set_verbosity(tf.logging.ERROR)
 	sess = tf.InteractiveSession()
 
-	img = PIL.Image.open("media/norm_img.png")
-	adv_img = PIL.Image.open("media/adv_img.png")
 
-	#img = PIL.Image.open("media/cat.png")
-	#adv_img = PIL.Image.open("media/adversarial_cat.png")
+	img = PIL.Image.open("media/pistol.png")
+	adv_img = PIL.Image.open("media/pistol_adv.png")
 
 	forward_model.init(sess)
 

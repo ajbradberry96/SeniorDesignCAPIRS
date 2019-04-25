@@ -1,11 +1,10 @@
 import tensorflow as tf
 
-import forward_model
-import plot_results
-import adv_example
-import image_processing
-import detect_adversarial
-import image_processing
+from testing import forward_model
+from testing import plot_results
+from testing import adv_example
+from testing import image_processing
+from testing import detect_adversarial
 import sys
 
 from urllib.request import urlretrieve

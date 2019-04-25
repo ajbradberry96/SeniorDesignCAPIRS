@@ -1,12 +1,12 @@
 import tensorflow as tf
 import pandas as pd
 
-import forward_model
-import detect_adversarial
+from testing import forward_model
+from testing import detect_adversarial
+from testing import image_processing
 import matplotlib
 import seaborn
 from matplotlib import pyplot as plt
-import image_processing
 
 from urllib.request import urlretrieve
 
