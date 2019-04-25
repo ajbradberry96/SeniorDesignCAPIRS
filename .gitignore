@@ -1,0 +1,10 @@
+*.png
+*.jpg
+*.jpeg
+*.pyc
+*.csv
+venv/*
+media/dataset/*
+dist/
+*.egg-info/
+build/
