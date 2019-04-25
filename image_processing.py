@@ -71,7 +71,7 @@ def add_noise(image, noise_factor=0.1, noise_type="speckle"):
     if noise_type == "gauss":
         # adding gaussian noise
         mean = 0.0
-        var = 1.0 * noise_factor # intensity of gauss differences
+        var = 5.0 * noise_factor # intensity of gauss differences
         stdev = var**0.5
         w, h = image.size
         c = len(image.getbands())
@@ -120,7 +120,7 @@ def saturate_mod(img, saturate_amt=0):
     """
 
     if saturate_amt == 0:
-        saturate_amt = random.uniform(2, 4)
+        saturate_amt = random.uniform(9, 10)
 
     converter = PIL.ImageEnhance.Color(img)
     img2 = converter.enhance(saturate_amt)
@@ -136,9 +136,9 @@ def color_shift(img, shifts=(0, 0, 0)):
     """
 
     if shifts[0] == 0 and shifts[1] == 0 and shifts[2] == 0:
-        red_shift = random.randint(80, 100)
-        green_shift = random.randint(80, 100)
-        blue_shift = random.randint(80, 100)
+        red_shift = random.randint(190, 200)
+        green_shift = random.randint(190, 200)
+        blue_shift = random.randint(190, 200)
         shifts = (red_shift, green_shift, blue_shift)
 
     arr = np.asarray(img).copy()
