@@ -66,7 +66,8 @@ def generate_adversarial_example(img, sess, mode="normal", adv_class="guacamole"
 		demo_epsilon = 8.0 / 255.0  # still a pretty small perturbation
 		demo_lr = 2e-1
 		demo_steps = 100
-		demo_target = 924  # "guacamole"
+		labels = forward_model.get_imagenet_labels()
+		demo_target = labels.index(adv_class)
 
 		# initialization step
 		sess.run(assign_op, feed_dict={x: img})
