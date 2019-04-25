@@ -23,7 +23,7 @@ forward_model.init(sess)
 
 print(forward_model.get_imagenet_labels())
 
-adv_img = adv_example.generate_adversarial_example(img, sess, adv_class='jellyfish')
+adv_img = adv_example.generate_adversarial_example(img, sess, adv_class='jellyfish',mode="sticker")
 
 adv_img.save("media/adv_img.png")
 
