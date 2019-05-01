@@ -5,6 +5,7 @@ Module for image transforms.
 @author: Andrew Bradberry
 """
 import PIL
+from PIL import ImageEnhance
 import numpy as np
 import random
 

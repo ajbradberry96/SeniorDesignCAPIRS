@@ -61,6 +61,7 @@ def faceChecker():
             f = face_recognition.compare_faces(knownEncodings[i], unknownEncoding)
             if(f[0]):
                 print ("This is " + names[i])
+                print (face_recognition.face_distance(knownEncodings[i], unknownEncoding))
             else:
                 print ("This is not " + names[i])
         print("NEXT")

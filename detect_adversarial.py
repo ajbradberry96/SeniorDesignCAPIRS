@@ -189,11 +189,11 @@ if __name__ == "__main__":
 	tf.logging.set_verbosity(tf.logging.ERROR)
 	sess = tf.InteractiveSession()
 
-	img = PIL.Image.open("media/norm_img.png")
-	adv_img = PIL.Image.open("media/adv_img.png")
+	#img = PIL.Image.open("media/norm_img.png")
+	#adv_img = PIL.Image.open("media/adv_img.png")
 
-	#img = PIL.Image.open("media/cat.png")
-	#adv_img = PIL.Image.open("media/adversarial_cat.png")
+	img = PIL.Image.open("media/cat.png")
+	adv_img = PIL.Image.open("media/adversarial_cat.png")
 
 	forward_model.init(sess)
 
