@@ -32,11 +32,17 @@ If you are having problems with our implementation being too sensitive or too sp
 These are the prereqs you need to run all the code listed here. All the dependencies should be handled for you if you just want the package from pip though.
 
 Python 3.6
+
 TenserFlow, open-source machine learning to model the neural network
+
 Pillow, fork of the Python Imaging Library
+
 Numpy for vector math and image modifications
+
 Scipy for spatial vector mathematics and adversarial comparisons
+
 Matplotlib for MATLAB plots
+
 Facial_recognition for face recognition testing (https://github.com/ageitgey/face_recognition)
 
 # Authors
